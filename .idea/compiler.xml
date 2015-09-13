@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AjcSettings">
+    <option name="ajcPath" value="F:\repository\org\aspectj\aspectjtools\1.7.4\aspectjtools-1.7.4.jar" />
+    <option name="cmdLineParams" value="-showWeaveInfo" />
+    <option name="explicitAspectPath" value="true" />
+    <option name="delegateToJavac" value="true" />
+  </component>
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="ajc" />
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="base-api" />
+        <module name="common-api" />
+        <module name="common-web" />
+        <module name="security-api" />
+        <module name="security-web" />
+        <module name="web-api" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="base-api" target="1.7" />
+      <module name="common" target="1.7" />
+      <module name="common-api" target="1.7" />
+      <module name="common-web" target="1.7" />
+      <module name="security-api" target="1.7" />
+      <module name="security-web" target="1.7" />
+      <module name="web-api" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
