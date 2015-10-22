@@ -1,9 +1,13 @@
 package com.dubby.security.model.entity;
 
 import com.dubby.base.enumeration.StatusType;
+
+
 import com.dubby.base.model.Dictionary;
 import com.dubby.base.model.entity.*;
+import com.dubby.security.model.entity.customInfo.RoleCustomInfoHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ForeignKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -16,15 +20,15 @@ import java.util.Set;
 @Configurable
 @Entity
 @Table(name="SEC_ROLE")
-public class Role implements HasSerializableEntity,HasUpdateEntity, HasRecordStatus, HasPicker, HasCustomInfo {
+public class Role implements HasSerializableEntity, HasUpdateEntity, HasPicker, HasRecordStatus, HasCustomInfo {
 
-    private static final long serialVersionUID = 690288685526085656L;
+    private static final long serialVersionUID = 1L;
 
     @Autowired
     Dictionary baseDictionary;
 
-//    @Autowired
-//    RoleCustomInfoHandler roleCustomInfoHandlerImpl;
+    @Autowired
+    RoleCustomInfoHandler roleCustomInfoHandlerImpl;
 
     private Long id;
 
@@ -75,16 +79,6 @@ public class Role implements HasSerializableEntity,HasUpdateEntity, HasRecordSta
     @Override
     public void setRawCustomInfo(String rawCustomInfo) {
         this.rawCustomInfo = rawCustomInfo;
-    }
-
-    @Override
-    public <T extends CustomInfo> T getCustomInfo() throws Exception {
-        return null;
-    }
-
-    @Override
-    public <T extends CustomInfo> void setCustomInfo(T customInfo) throws Exception {
-
     }
 
     private Character status = StatusType.Active.getVal();
@@ -149,36 +143,35 @@ public class Role implements HasSerializableEntity,HasUpdateEntity, HasRecordSta
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    private Set<User> users = new HashSet<User>(0);
 
-//    private Set<User> users = new HashSet<User>(0);
+    @ManyToMany(fetch= FetchType.LAZY)
+    @ForeignKey(name = "none")
+    @JoinTable(name="SEC_USER_ROLE",
+            joinColumns = { @JoinColumn(name = "IDF_ROLE") },
+            inverseJoinColumns = { @JoinColumn(name = "IDF_USER") })
+    @JsonIgnore
+    public Set<User> getUsers() {
+        return users;
+    }
 
-//    @ManyToMany(fetch= FetchType.LAZY)
-//    @ForeignKey(name = "none")
-//    @JoinTable(name="SEC_USER_ROLE",
-//            joinColumns = { @JoinColumn(name = "IDF_ROLE") },
-//            inverseJoinColumns = { @JoinColumn(name = "IDF_USER") })
-//    @JsonIgnore
-//    public Set<User> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(Set<User> users) {
-//        this.users = users;
-//    }
-//
-//    @Override
-//    @Transient
-//    @JsonIgnore
-//    public <T extends CustomInfo> T getCustomInfo() throws Exception {
-//
-//        return (T) roleCustomInfoHandlerImpl.getCustomInfo(rawCustomInfo);
-//    }
-//
-//    @Override
-//    public <T extends CustomInfo> void setCustomInfo(T customInfo) throws Exception {
-//
-//        rawCustomInfo = roleCustomInfoHandlerImpl.getRawCustomInfo(customInfo);
-//    }
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    @Override
+    @Transient
+    @JsonIgnore
+    public <T extends CustomInfo> T getCustomInfo() throws Exception {
+
+        return (T) roleCustomInfoHandlerImpl.getCustomInfo(rawCustomInfo);
+    }
+
+    @Override
+    public <T extends CustomInfo> void setCustomInfo(T customInfo) throws Exception {
+
+        rawCustomInfo = roleCustomInfoHandlerImpl.getRawCustomInfo(customInfo);
+    }
 
     @Override
     @Transient

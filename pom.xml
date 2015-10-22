@@ -14,6 +14,7 @@
         <module>base-api</module>
         <module>web-api</module>
         <module>security-api</module>
+        <module>security-web</module>
     </modules>
 
     <properties>
@@ -73,32 +74,43 @@
 
     <repositories>
         <repository>
-            <id>public-jboss</id>
-            <name>public-jboss</name>
-            <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Repository Group</name>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
         </repository>
-
         <repository>
-            <id>fdvsolution.public</id>
-            <url>http://archiva.fdvs.com.ar/repository/public1/</url>
+            <id>jvnet-nexus-releases</id>
+            <name>jvnet-nexus-releases</name>
+            <url>https://maven.java.net/content/repositories/releases/</url>
         </repository>
+    </repositories>
 
-        <!--<repository>-->
+    <!--<pluginRepositories>-->
+        <!--<pluginRepository>-->
+            <!--<id>jboss-public-repository-group</id>-->
+            <!--<name>JBoss Public Repository Group</name>-->
+            <!--<url>http://repository.jboss.org/nexus/content/groups/public/</url>-->
+            <!--<releases>-->
+                <!--<enabled>true</enabled>-->
+            <!--</releases>-->
             <!--<snapshots>-->
                 <!--<enabled>true</enabled>-->
-                <!--<updatePolicy>always</updatePolicy>-->
-                <!--<checksumPolicy>fail</checksumPolicy>-->
             <!--</snapshots>-->
-            <!--<id>Snapshot</id>-->
-            <!--<name>Dubby Snapshot</name>-->
-            <!--<url>http://192.168.1.3:8081/nexus/content/repositories/snapshots</url>-->
-            <!--<layout>default</layout>-->
-        <!--</repository>-->
-    </repositories>
+        <!--</pluginRepository>-->
+    <!--</pluginRepositories>-->
 
     <scm>
         <!--<connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>-->
-        <connection>scm:git:ssh://git@192.168.1.3/common-1.0.git</connection>
+        <connection>scm:git:https://github.com/BudiPrasetyo20/common.git</connection>
     </scm>
 
     <build>

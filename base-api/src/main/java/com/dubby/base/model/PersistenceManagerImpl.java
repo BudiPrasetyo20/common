@@ -108,12 +108,12 @@ public class PersistenceManagerImpl implements PersistenceManager {
     }
 
     @Override
-    public <T extends HasSerializableEntity> void merge(T instance) throws BaseException {
-        merge(instance, null);
+    public <T extends HasSerializableEntity> T merge(T instance) throws BaseException {
+        return merge(instance, null);
     }
 
     @Override
-    public <T extends HasSerializableEntity> void merge(T instance, String userName)
+    public <T extends HasSerializableEntity> T merge(T instance, String userName)
             throws BaseException {
 
         Session session = getSessionFactory().getCurrentSession();
@@ -129,10 +129,10 @@ public class PersistenceManagerImpl implements PersistenceManager {
             ((HasUpdateEntity) instance).setLastUpdateDate(new Date());
         }
 
-        session.merge(instance);
+        instance = (T) session.merge(instance);
 
         session.flush();
-
+        return instance;
     }
 
     public <T extends HasSerializableEntity> void delete(T instance) {

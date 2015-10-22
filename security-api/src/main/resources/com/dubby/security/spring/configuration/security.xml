@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <!-- Static Resources -->
+    <http security="none" pattern="/resources/**" />
+    <http security="none" pattern="/rfRes/**" />
+    <http security="none" pattern="/javax.faces.resource/**" />
+
+    <http pattern="/chpass.xhtml*" use-expressions="true">
+        <form-login login-page="/login.xhtml"
+                    authentication-failure-handler-ref="authenticationHandler"
+                    default-target-url="/index.xhtml" />
+        <intercept-url pattern="/chpass.xhtml" access="isAuthenticated()" />
+        <http-basic />
+    </http>
+
+    <!-- Common Filter -->
+    <http auto-config="true" use-expressions="true">
+        <form-login login-page="/login.xhtml"
+                    authentication-failure-handler-ref="authenticationHandler"
+                    default-target-url="/index.xhtml" />
+        <logout success-handler-ref="skyLogoutSuccessHandler" />
+        <intercept-url pattern="/login.xhtml" access="permitAll" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+        <custom-filter ref="changePasswordFilter" position="LAST" />
+        <session-management>
+            <concurrency-control expired-url="/login.xhtml" />
+        </session-management>
+    </http>
+
+    <!-- Logout Success Handler -->
+    <beans:bean id="skyLogoutSuccessHandler"
+                class="com.dubby.web.security.authentication.DubbyLogoutSuccessHandler"/>
+
+    <!-- Application Listener -->
+    <beans:bean id="securityAuditListener"
+                class="com.skyworx.security.helper.SecurityAuditListener" />
+
+    <!-- Change Password Filter -->
+    <beans:bean id="changePasswordFilter"
+                class="com.skyworx.security.helper.ChangePasswordFilter">
+        <beans:property name="changePasswordUrl" value="/chpass.xhtml" />
+    </beans:bean>
+
+    <!-- Authentication Exception Handler -->
+    <beans:bean id="authenticationHandler"
+                class="com.skyworx.security.helper.SecurityAuthFailureHandler">
+        <beans:property name="urlPath" value="/login.xhtml"></beans:property>
+    </beans:bean>
+
+    <global-method-security secured-annotations="enabled"
+                            jsr250-annotations="enabled">
+    </global-method-security>
+
+    <!--<authentication-manager alias="authenticationManager">-->
+        <!--<authentication-provider ref="customDaoAuthenticationProvider" />-->
+    <!--</authentication-manager>-->
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="skyAuthenticationProvider" />
+    </authentication-manager>
+
+    <!--<beans:bean id="customDaoAuthenticationProvider"-->
+                <!--class="com.skyworx.security.helper.CustomDaoAuthenticationProvider">-->
+        <!--<beans:property name="passwordEncoder" ref="springPasswordEncoder" />-->
+        <!--<beans:property name="userDetailsService" ref="userServiceFacade" />-->
+    <!--</beans:bean>-->
+
+    <beans:bean id="skyAuthenticationProvider"
+                class="com.dubby.web.security.authentication.DubbyAuthenticationProvider">
+        <beans:property name="hideUserNotFoundExceptions" value="true" />
+    </beans:bean>
+
+    <beans:bean name="passwordEncoder"
+                class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+</beans:beans>

@@ -17,8 +17,8 @@ public interface PersistenceManager {
     public <T extends HasSerializableEntity> void update(T instance) throws BaseException;
     public <T extends HasSerializableEntity> void update(T instance, String userName) throws BaseException;
 
-    public <T extends HasSerializableEntity> void merge(T instance)throws BaseException;
-    public <T extends HasSerializableEntity> void merge(T instance, String userName)throws BaseException;
+    public <T extends HasSerializableEntity> T merge(T instance)throws BaseException;
+    public <T extends HasSerializableEntity> T merge(T instance, String userName)throws BaseException;
 
     public <T extends HasSerializableEntity> void delete(T instance) throws BaseException;
 

@@ -1,6 +1,7 @@
 package com.dubby.base.model.repo;
 
 
+import com.dubby.base.exception.BaseException;
 import com.dubby.base.model.entity.ModuleSetting;
 
 public interface SettingRepo extends Repo<ModuleSetting> {

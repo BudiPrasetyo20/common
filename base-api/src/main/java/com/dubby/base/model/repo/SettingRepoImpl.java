@@ -1,6 +1,7 @@
 package com.dubby.base.model.repo;
 
 
+import com.dubby.base.exception.BaseException;
 import com.dubby.base.model.ObjectStringConverter;
 import com.dubby.base.model.entity.ModuleSetting;
 import org.springframework.beans.factory.annotation.Autowired;

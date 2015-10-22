@@ -39,10 +39,10 @@ public abstract class ACacheContainerRepo<T extends HasCache> extends ARepo<T> i
     }
 
     @Override
-    public void saveOrUpdate(T instance, boolean isNew, String userName) throws BaseException {
-        super.saveOrUpdate(instance, isNew, userName);
-
+    public T saveOrUpdate(T instance, boolean isNew, String userName) throws BaseException {
+        instance = super.saveOrUpdate(instance, isNew, userName);
         reloadCache();
+        return instance;
     }
 
     @Override
